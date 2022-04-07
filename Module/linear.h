@@ -1,3 +1,6 @@
+ #ifndef LINEAR_H
+ #define  LINEAR_H
+
 class vctr
 {
   /*
@@ -7,7 +10,8 @@ private:
 public:
   double v[4];
   vctr(double x,double y,double z,double w=1);
-  vctr operator+(const vctr&);
+  vctr operator+(const vctr&);//点与向量相加，向量与向量相加
+  vctr operator-(const vctr&);//点与点相减，向量与向量相减，点与向量相减
   vctr operator*(const vctr&);  //叉乘
   bool operator==(const vctr&);
   double operator[](const int&);
@@ -21,6 +25,7 @@ class mtrx
 private:
 public:
   double v[4][4];
+  mtrx(double *argv);
   mtrx operator*(const mtrx&);
   mtrx operator+(const mtrx&);
   double* operator[](const int&);
@@ -42,3 +47,5 @@ mtrx ViewCamera(const vctr &pos,const vctr &up,const vctr &sight);
 mtrx orthographic();//正交投影
 mtrx perspective();//透视投影
 mtrx viewport();
+
+ #endif
