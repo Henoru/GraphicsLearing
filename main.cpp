@@ -1,55 +1,20 @@
-#include<cmath>
-#include"eigen3/Eigen/Core"
-#include"eigen3/Eigen/Dense"
-#include<iostream>
+#include "tgaimage.h"
 
-int main(){
+const TGAColor white = TGAColor(255, 255, 255, 255);
+const TGAColor red   = TGAColor(255, 0,   0,   255);
 
-    // Basic Example of cpp
-    std::cout << "Example of cpp \n";
-    float a = 1.0, b = 2.0;
-    std::cout << a << std::endl;
-    std::cout << a/b << std::endl;
-    std::cout << std::sqrt(b) << std::endl;
-    std::cout << std::acos(-1) << std::endl;
-    std::cout << std::sin(30.0/180.0*acos(-1)) << std::endl;
+void line(int x0, int y0, int x1, int y1, TGAImage &image, TGAColor color) {
+    for (float t=0.; t<1.; t+=.1) {
+        int x = x0*(1.-t) + x1*t;
+        int y = y0*(1.-t) + y1*t;
+        image.set(x, y, color);
+    }
+}
 
-    // Example of vector
-    std::cout << "Example of vector \n";
-    // vector definition
-    Eigen::Vector3f v(1.0f,2.0f,3.0f);
-    Eigen::Vector3f w(1.0f,0.0f,0.0f);
-    // vector output
-    std::cout << "Example of output \n";
-    std::cout << v << std::endl;
-    // vector add
-    std::cout << "Example of add \n";
-    std::cout << v + w << std::endl;
-    // vector scalar multiply
-    std::cout << "Example of scalar multiply \n";
-    std::cout << v * 3.0f << std::endl;
-    std::cout << 2.0f * v << std::endl;
-
-    // Example of matrix
-    std::cout << "Example of matrix \n";
-    // matrix definition
-    Eigen::Matrix3f i,j;
-    i << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0;
-    j << 2.0, 3.0, 1.0, 4.0, 6.0, 5.0, 9.0, 7.0, 8.0;
-    // matrix output
-    std::cout << "Example of output \n";
-    std::cout << i << std::endl;
-    // matrix add i + j
-    // matrix scalar multiply i * 2.0
-    // matrix multiply i * j
-    // matrix multiply vector i * v
-
-
-    /* 
-    * PA 0
-    */
-    // TO DO: Define point P
-    // TO DO: Define rotation matrix M
-    // TO DO: M * P
+int main(int argc, char** argv) {
+    TGAImage image(100, 100, TGAImage::RGB);
+    line(13, 20, 80, 40, image, white);
+    image.flip_vertically(); // i want to have the origin at the left bottom corner of the image
+    image.write_tga_file("output.tga");
     return 0;
 }
