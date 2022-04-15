@@ -4,50 +4,58 @@ double sqr(double x)
 {
   return x*x;
 }
-vctr4d::vctr4d(double x=0,double y=0,double z=0,double w=1)
+vctr4d::vctr4d(){v[0]=v[1]=v[2]=v[3]=0;}
+vctr4d::vctr4d(double x,double y,double z,double w)
 {
   v[0]=x,v[1]=y,v[2]=z,v[3]=w;
 }
-vctr4d::double operator[](int x)const {return v[x];}
-vctr4d::double& operator[](int x){return v[x];}
-vctr4d::vctr4d operator+(const vctr4d& other)const//点与向量相加，向量与向量相加
+double vctr4d::operator[](int x)const {return v[x];}
+double& vctr4d::operator[](int x){return v[x];}
+vctr4d vctr4d::operator+(const vctr4d& other)const//点与向量相加，向量与向量相加
 {
   vctr4d a=*this;
-  if((*this)[3] && other[3]) throw "vctr4d::points can't add points\n";
+  //if((*this)[3] && other[3]) throw "vctr4d::points can't add points\n";
   for(int i=0;i<4;i++)
     a[i]+=other[i];
   return a;
 }
-vctr4d::vctr4d normalise() const
+vctr4d vctr4d::normalise()const
 {
-  if(v[3]) return vctr4d(v[0]/v[3],v[1]/v[3],v[2]/v[3]);
-  else
-  {
+  //if(v[3]) return vctr4d(v[0]/v[3],v[1]/v[3],v[2]/v[3]);
+  //else
+  //{
     double len=sqrt(sqr(v[0])+sqr(v[1])+sqr(v[2]));
     return vctr4d(v[0]/len,v[1]/len,v[2]/len,0);
-  }
+  //}
 }
-vctr4d::vctr4d operator-(const vctr4d& other)const//点与点相减，向量与向量相减，点与向量相减
+vctr4d vctr4d::operator-(const vctr4d& other)const//点与点相减，向量与向量相减，点与向量相减
 {
-  if((*this)[3]==0 && other[3]) throw "vctr4d::vector can't minus point\n";
-  if((*this)[3] && other[3])
-  { 
-    vctr4d a=this->normalise(),b=other.normalise();
-    return vctr4d(a[0]-b[0],a[1]-b[1],a[2]-b[2],a[3]-b[3]);
-  }
-  else
-  {
+  // if((*this)[3]==0 && other[3]) throw "vctr4d::vector can't minus point\n";
+  // if((*this)[3] && other[3])
+  // { 
+  //   vctr4d a=this->normalise(),b=other.normalise();
+  //   return vctr4d(a[0]-b[0],a[1]-b[1],a[2]-b[2],a[3]-b[3]);
+  // }
+  // else
+  // {
     const vctr4d& a=*this,b=other;
     return vctr4d(a[0]-b[0],a[1]-b[1],a[2]-b[2],a[3]-b[3]);
-  }
+  //}
 }
-vctr4d::vctr4d operator*(const vctr4d& other)const //叉乘
+vctr4d vctr4d::operator*(const vctr4d& other)const //叉乘
 {
   if((*this)[3] || other[3]) throw "vctr4d::only vector can have cross product\n";
   const vctr4d& a=*this,b=other;
   return vctr4d(a[1]*b[2]-b[1]*b[2],a[2]*b[0]-a[0]*b[2],a[0]*b[2]-a[1]*b[0],0);
 }
-double dot(const vctr4d&,const vctr4d&);
+double dot(const vctr4d& a,const vctr4d& b)
+{
+  if(a[3] || b[3]) throw "vctr4d::only vector can have dot product\n";
+  double ans=0;
+  for(int i=0;i<3;i++)
+    ans+=a[i]*b[i];
+  return ans;
+}
 mtrx4d::mtrx4d()
 {
   for(int i=0;i<4;i++)
@@ -60,9 +68,9 @@ mtrx4d::mtrx4d(double argv[])
     for(int j=0;j<4;j++)
       v[i][j]=argv[4*i+j];
 }
-mtrx4d::double* operator[](int x){return v[x];}
-mtrx4d::const double* operator[](int x)const{return v[x];}
-mtrx4d::mtrx4d operator*(const mtrx4d& other)const
+double* mtrx4d::operator[](int x){return v[x];}
+const double* mtrx4d::operator[](int x)const{return v[x];}
+mtrx4d mtrx4d::operator*(const mtrx4d& other)const
 {
   mtrx4d c;
   for(int i=0;i<4;i++)
@@ -74,7 +82,7 @@ mtrx4d::mtrx4d operator*(const mtrx4d& other)const
     }
   return c;
 }
-mtrx4d::mtrx4d operator+(const mtrx4d& other)const
+mtrx4d mtrx4d::operator+(const mtrx4d& other)const
 {
   mtrx4d c;
   for(int i=0;i<4;i++)
@@ -82,7 +90,7 @@ mtrx4d::mtrx4d operator+(const mtrx4d& other)const
       c[i][j]=(*this)[i][j]+other[i][j];
   return c;
 }
-mtrx4d::mtrx4d operator-(const mtrx4d& other) const
+mtrx4d mtrx4d::operator-(const mtrx4d& other) const
 {
   mtrx4d c;
   for(int i=0;i<4;i++)

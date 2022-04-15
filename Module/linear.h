@@ -7,7 +7,8 @@ class vctr4d
 private:
 public:
   double v[4];
-  vctr4d(double x=0,double y=0,double z=0,double w=1);
+  vctr4d();
+  vctr4d(double x,double y,double z,double w);
   double operator[](int x)const;
   double& operator[](int x);
   vctr4d operator+(const vctr4d& other)const;
