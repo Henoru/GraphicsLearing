@@ -1,5 +1,7 @@
 #include "linear.h"
-#include<cmath>
+#include <cmath>
+#include <cstdio>
+#include <iostream>
 double sqr(double x)
 {
   return x*x;
@@ -107,6 +109,7 @@ vctr4d operator*(const mtrx4d& M,const vctr4d& V)
     for(int j=0;j<4;j++)
       c[i]+=M[i][j]*V[j];
   }
+  return c;
 }
 namespace trans
 {

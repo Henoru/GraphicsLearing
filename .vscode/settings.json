@@ -2,6 +2,7 @@
   "files.associations": {
     "stdexcept": "cpp",
     "alignedvector3": "cpp",
-    "vector": "cpp"
+    "vector": "cpp",
+    "iostream": "cpp"
   }
 }

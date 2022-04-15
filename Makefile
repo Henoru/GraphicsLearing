@@ -1,22 +1,10 @@
-SYSCONF_LINK = g++
-CPPFLAGS     =
-LDFLAGS      =
-LIBS         = -lm
-
-DESTDIR = ./
-TARGET  = main
-
-OBJECTS := $(patsubst %.cpp,%.o,$(wildcard *.cpp))
-
-all: $(DESTDIR)$(TARGET)
-
-$(DESTDIR)$(TARGET): $(OBJECTS)
-	$(SYSCONF_LINK) -O3 -std=c++11 -Wall $(LDFLAGS) -o $(DESTDIR)$(TARGET) $(OBJECTS) $(LIBS)
-
-$(OBJECTS): %.o: %.cpp
-	$(SYSCONF_LINK) -O3 -std=c++11 -Wall $(CPPFLAGS) -c $(CFLAGS) $< -o $@
-
+VPATH=Module
+SRC=$(wildcard *.cpp Module/*.cpp)
+OBJ=$(patsubst %.cpp,%.o,$(SRC))
+all:$(OBJ)
+	g++ -std=c++11 -O3 $(OBJ) -o main
+$(OBJ):%.o:%.cpp
+	g++ -std=c++11 -c $< -o $@
+.PHONY:clean
 clean:
-	-rm -f $(OBJECTS)
-	-rm -f $(TARGET)
-	-rm -f *.tga
+	rm $(OBJ)
